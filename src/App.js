@@ -3,6 +3,7 @@ import FormInput from './components/FormInput';
 import ToDoItem from './components/ToDoItem';
 import logo from './logo.svg';
 import './App.css';
+import EditModal from './components/EditModal';
 
 class App extends React.Component {
   state = {
@@ -21,9 +22,28 @@ class App extends React.Component {
       }
     ]
   }
-  deleteTask =id =>(
-    console.log("delete Ok")
-  )
+  deleteTask =id =>{
+    //console.log('ok')
+    this.setState({
+      todos: this.state.todos.filter(item => item.id != id)
+    })
+    
+  
+  }
+  addTask = data => {
+      const id = this.state.todos.length
+    const newData = {
+      id: id + 1,
+    title : data
+    }
+    this.setState({
+      todos: [...this.state.todos, newData]
+    })
+
+  }
+  editTask =id =>{
+    console.log("edit Ok")
+  }
   render(){
     const { todos } = this.state;
   return (
@@ -34,15 +54,17 @@ class App extends React.Component {
           </div>
           <div className='list'>
             {todos.map(item =>
-              <ToDoItem key={item.id} todo={item}/>
+              <ToDoItem key={item.id} todo={item} del={this.deleteTask}/>
+
               )}
             
 
           </div>
           <div className='input-form'>
-            <FormInput/>
+            <FormInput add={this.addTask}/>
             
           </div>
+          <EditModal></EditModal>
     </div>
   );
 }

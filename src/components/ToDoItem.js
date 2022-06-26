@@ -2,16 +2,20 @@ import React from 'react'
 import Button from  './Button';
 import PropTypes from 'prop-types';
 
-const ToDoItem = ({ todo,del }) =>{
+const ToDoItem = ({ todo,edit,del }) =>{
 const delById = id =>{
     del(id)
+
+}
+const EditById = id =>{
+    edit(id)
 
 }
         return(
         <div style={todoItem}>
             <p>{todo.title}</p>
             <div>
-                <Button text="edit" variant ="success" />
+                <Button text="edit" variant ="success"/>
                 <Button text="delete" variant ="warning" action={()=> delById(todo.id)}/>
             </div>
         </div>
@@ -20,7 +24,8 @@ const delById = id =>{
 
 ToDoItem.propTypes = {
     todo: PropTypes.object.isRequired,
-    del: PropTypes.func
+    del: PropTypes.func,
+    edit: PropTypes.func
 }
 export default ToDoItem
 
