@@ -20,7 +20,51 @@ class App extends React.Component {
         id: 3,
         title : "reading a book"
       }
-    ]
+    ],
+    isEdit:false,
+    editData : {
+      id:"",
+      title:""
+    }
+
+  }
+update = ()  => {
+  const { id, title } = this.state.editData
+  const newData = {id, title}
+  const newTodos = this.state.todos
+  newTodos.splice((id-1),newData)
+this.setState({
+  todos:newTodos,
+  isEdit:false,
+  editData:
+  {
+    id:"",
+    title:""
+  }
+})
+}
+  setTitle = e => {
+    this.setState({
+      editData:{
+        ...this.state.editData,
+        title: e.target.value
+      }
+    })
+  }
+
+  openModal = (id, data) => {
+    this.setState({
+      isEdit:true,
+      editData :{
+        id,
+        title :data
+      }
+    })
+  }
+  closeModal = () => {
+    this.setState({
+      isEdit:false
+    })
   }
   deleteTask =id =>{
     //console.log('ok')
@@ -54,8 +98,12 @@ class App extends React.Component {
           </div>
           <div className='list'>
             {todos.map(item =>
-              <ToDoItem key={item.id} todo={item} del={this.deleteTask}/>
-
+              <ToDoItem 
+              key={item.id} 
+              todo={item} 
+              del={this.deleteTask}
+              //close={this.closeModal}
+              open={this.openModal}/>
               )}
             
 
@@ -64,7 +112,12 @@ class App extends React.Component {
             <FormInput add={this.addTask}/>
             
           </div>
-          <EditModal></EditModal>
+          <EditModal edit={this.state.isEdit} 
+          close={this.closeModal} 
+          change={this.setTitle}
+          data={this.state.editData}
+update={this.update}>
+          </EditModal>
     </div>
   );
 }
